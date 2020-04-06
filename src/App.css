@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    height: 70px;
+    width: 100%;
+    background: #05386b;
+}
+
+header button {
+    background: transparent;
+    height: 35px;
+    width: 100px;
+    border: 3px solid white;
+    border-radius: 3px;
+    margin: 10px 10px;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+}
+
+header button:hover {
+    color: blueviolet;
+    border-color: blueviolet;
+    transition: all 0.4s ease-in;
+}
+
+@media only screen and (max-width: 600px) {
+    header button {
+        font-size: 12px;
+        width: 90px;
+        margin: 0 5px;
+    }
+}
