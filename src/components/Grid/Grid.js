@@ -30,10 +30,6 @@ export const Grid = (props) => {
         };
     };
 
-    const handleClick = () => {
-        console.log(props.gameState);
-    };
-
     return (
         <table className="grid">
             <tbody>
@@ -50,7 +46,7 @@ export const Grid = (props) => {
                                     isStart={isStart}
                                     isGoal={isGoal}
                                     isWall={isWall}
-                                    onClick={handleClick}
+                                    mode={props.mode}
                                 ></Node>
                             );
                         })}

@@ -28,12 +28,23 @@ header button {
     font-weight: bold;
     font-size: 14px;
     color: white;
+    cursor: pointer;
 }
 
 header button:hover {
     color: blueviolet;
     border-color: blueviolet;
     transition: all 0.4s ease-in;
+}
+
+header button:focus {
+    border-color: black;
+    color: black;
+}
+
+header button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
 }
 
 @media only screen and (max-width: 600px) {

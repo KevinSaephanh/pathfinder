@@ -3,36 +3,45 @@ import "./App.css";
 import { Grid } from "./components/Grid/Grid";
 
 const App = () => {
-    const [buttons, setButtons] = useState({
-        startNode: false,
-        goalNode: false,
-        restart: false,
-        start: false,
-    });
+    const [mode, setMode] = useState("");
 
     const handleClick = (e) => {
         e.preventDefault();
-        const { name } = e.target;
-        setButtons((buttons) => ({ ...buttons, [name]: !buttons[name] }));
+        setMode(e.target.name);
     };
 
     return (
         <div className="container">
             <header>
-                <button name="startNode" onClick={handleClick}>
+                <button
+                    name="start-node"
+                    disabled={mode === "start"}
+                    onClick={handleClick}
+                >
                     SET START
                 </button>
-                <button name="goalNode" onClick={handleClick}>
+                <button
+                    name="goal-node"
+                    disabled={mode === "start"}
+                    onClick={handleClick}
+                >
                     SET GOAL
                 </button>
-                <button name="restart" onClick={handleClick}>
-                    RESTART
+                <button
+                    name="wall-node"
+                    disabled={mode === "start"}
+                    onClick={handleClick}
+                >
+                    SET WALLS
+                </button>
+                <button name="clear" onClick={handleClick}>
+                    CLEAR
                 </button>
                 <button name="start" onClick={handleClick}>
                     START
                 </button>
             </header>
-            <Grid gameState={buttons} />
+            <Grid mode={mode} />
         </div>
     );
 };
