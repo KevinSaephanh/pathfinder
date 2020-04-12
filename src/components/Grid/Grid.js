@@ -1,53 +1,44 @@
 import React, { useState, useEffect } from "react";
 import "./Grid.css";
-import { Node } from "../Node/Node";
+import { Cell } from "../Cell/Cell";
+import { initGrid, primsMaze } from "../../algorithms/maze";
 
 export const Grid = (props) => {
     const [grid, setGrid] = useState([]);
 
     useEffect(() => {
-        drawGrid();
-    }, []);
-
-    const drawGrid = () => {
-        const grid = [];
-        for (let row = 0; row < 20; row++) {
-            grid[row] = []; // Current row
-            for (let col = 0; col < 20; col++) {
-                grid[row].push(createNode(row, col));
-            }
+        console.log(props.status);
+        switch (props.status) {
+            case "generate":
+                console.log("GENERATING");
+                setGrid(primsMaze(grid));
+                break;
+            case "start":
+                console.log("STARTING");
+                break;
+            default:
+                console.log("DRAWING GRID");
+                setGrid(initGrid());
+                break;
         }
-        setGrid(grid);
-    };
-
-    const createNode = (row, col) => {
-        return {
-            row,
-            col,
-            isStart: false,
-            isGoal: false,
-            isWall: false,
-        };
-    };
+    }, [props.status]);
 
     return (
         <table className="grid">
             <tbody>
                 {grid.map((row, rowIndex) => (
                     <tr className="grid-row" key={rowIndex}>
-                        {row.map((node, nodeIndex) => {
-                            const { row, col, isStart, isGoal, isWall } = node;
+                        {row.map((cell, nodeIndex) => {
+                            const { row, col, visited, walls } = cell;
 
                             return (
-                                <Node
+                                <Cell
                                     key={nodeIndex}
                                     row={row}
                                     col={col}
-                                    isStart={isStart}
-                                    isGoal={isGoal}
-                                    isWall={isWall}
-                                    mode={props.mode}
-                                ></Node>
+                                    visited={visited}
+                                    walls={walls}
+                                ></Cell>
                             );
                         })}
                     </tr>

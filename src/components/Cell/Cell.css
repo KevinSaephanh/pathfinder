@@ -1,8 +1,20 @@
-.node {
+.cell {
     height: 25px;
     width: 25px;
-    outline: 1px solid white;
+    border: 1.6px solid white;
     overflow: hidden;
+}
+
+.visited-false {
+    background: blue;
+}
+
+.visited-true {
+    background: #444444;
+}
+
+td {
+    /* border-right: solid 1.6px #444444 !important; */
 }
 
 .start-node {
@@ -18,7 +30,7 @@
 }
 
 @media only screen and (max-width: 900px) {
-    .node {
+    .cell {
         height: 10px;
         width: 10px;
     }

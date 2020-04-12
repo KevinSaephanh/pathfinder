@@ -2,7 +2,8 @@
     height: 560px;
     width: 650px;
     margin: 0 auto;
-    background: #444444;
+    border-collapse: collapse;
+    border: 1px solid black;
 }
 
 .grid-row {
