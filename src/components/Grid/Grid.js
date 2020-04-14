@@ -10,14 +10,11 @@ export const Grid = (props) => {
         console.log(props.status);
         switch (props.status) {
             case "generate":
-                console.log("GENERATING");
                 setGrid(primsMaze(grid));
                 break;
             case "start":
-                console.log("STARTING");
                 break;
             default:
-                console.log("DRAWING GRID");
                 setGrid(initGrid());
                 break;
         }

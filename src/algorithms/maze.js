@@ -1,8 +1,9 @@
 const HEIGHT = 20;
 const WIDTH = 20;
+let grid = [];
 
 export const initGrid = () => {
-    const grid = [];
+    grid = [];
     for (let row = 0; row < 20; row++) {
         grid[row] = []; // Current row
         for (let col = 0; col < 20; col++) {
@@ -14,62 +15,61 @@ export const initGrid = () => {
 };
 
 export const primsMaze = (grid) => {
-    const start = new Cell(0, 0);
-    const stack = [];
+    const row = Math.floor(Math.random() * 21);
+    const col = Math.floor(Math.random() * 21);
+    const rootCell = grid[row][col];
+    const toVisit = [];
 
-    for (let r of grid) {
-        for (let c of r) {
-            c.visited = true;
-        }
-    }
-
-    stack.push(start);
-    while (stack.length > 0) {
-        const stackTop = stack.pop();
-        const currCell = new Cell(stackTop.row, stackTop.col);
+    toVisit.push(rootCell);
+    while (toVisit.length > 0) {
+        let currCell = toVisit.pop();
         currCell.visited = true;
+        console.log(currCell);
 
-        const shuffledArray = shuffle(currCell.getNeighbors());
-        shuffledArray.forEach((neighbor) => {
-            stack.push(neighbor);
-
-            //breakWall(currCell, neighbor);
+        const shuffledArray = shuffle(currCell.getFrontiers());
+        shuffledArray.forEach((frontier) => {
+            frontier = grid[frontier[0]][frontier[1]];
+            if (!frontier.visited) {
+                breakWall(currCell, frontier);
+                toVisit.push(frontier);
+            }
         });
     }
 
     return grid;
 };
 
-const breakWall = (neighbor, currCell, neighborCell) => {
-    const styleWallBreak = "solid 1.6px #444444 !important";
-    const { row, col } = currCell;
+const breakWall = (currCell, frontier) => {
+    const x = currCell.row - frontier.row;
+    const y = currCell.col - frontier.col;
 
-    // top wall?
-    if (row - 1 === neighbor[0] && col === neighbor[1]) {
-        currCell.style.borderTop = styleWallBreak;
-        neighborCell.style.borderBottom = styleWallBreak;
+    // Break right wall
+    if (x === 1) {
+        currCell.walls[3] = false;
+        frontier.walls[1] = false;
     }
 
-    // right wall?
-    else if (row === neighbor[0] && col + 1 === neighbor[1]) {
-        currCell.style.borderRight = styleWallBreak;
-        neighborCell.style.borderLeft = styleWallBreak;
+    // Break left wall
+    else if (x === -1) {
+        currCell.walls[1] = false;
+        frontier.walls[3] = false;
     }
 
-    // bottom wall?
-    else if (row + 1 === neighbor[0] && col === neighbor[1]) {
-        currCell.style.borderBottom = styleWallBreak;
-        neighborCell.style.borderTop = styleWallBreak;
+    // Break top wall
+    if (y === 1) {
+        currCell.walls[0] = false;
+        frontier.walls[2] = false;
     }
 
-    // left wall?
-    else {
-        currCell.style.borderLeft = styleWallBreak;
-        neighborCell.style.borderRight = styleWallBreak;
+    // Break bottom wall
+    else if (y === -1) {
+        currCell.walls[2] = false;
+        frontier.walls[0] = false;
     }
 };
 
 // Fisher-Yates shuffle algorithm
+// Used to randomize order of frontiers
 const shuffle = (arr) => {
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -86,38 +86,31 @@ class Cell {
         this.walls = [true, true, true, true];
     }
 
-    getNeighbors() {
+    getFrontiers() {
         const top = [this.row - 1, this.col];
         const right = [this.row, this.col + 1];
         const bottom = [this.row + 1, this.col];
         const left = [this.row, this.col - 1];
-        const neighbors = [];
+        const frontiers = [top, right, bottom, left];
 
-        if (!top.visited && this.isValidNeighbor(top)) {
-            neighbors.push(top);
+        for (let i = frontiers.length - 1; i >= 0; i--) {
+            if (!this.isValidFrontier(frontiers[i])) {
+                frontiers.splice(i, 1);
+            } else if (grid[frontiers[i][0]][frontiers[i][1]].visited) {
+                frontiers.splice(i, 1);
+            }
         }
 
-        if (!bottom.visited && this.isValidNeighbor(bottom)) {
-            neighbors.push(bottom);
-        }
-
-        if (!right.visited && this.isValidNeighbor(right)) {
-            neighbors.push(right);
-        }
-
-        if (!left.visited && this.isValidNeighbor(left)) {
-            neighbors.push(left);
-        }
-
-        return neighbors;
+        console.log(frontiers);
+        return frontiers;
     }
 
-    isValidNeighbor(neighbor) {
+    isValidFrontier(frontier) {
         return (
-            neighbor[0] < HEIGHT &&
-            neighbor[0] >= 0 &&
-            neighbor[1] < WIDTH &&
-            neighbor[1] >= 0
+            frontier[0] < HEIGHT &&
+            frontier[0] >= 0 &&
+            frontier[1] < WIDTH &&
+            frontier[1] >= 0
         );
     }
 }

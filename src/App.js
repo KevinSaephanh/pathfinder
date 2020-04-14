@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { Grid } from "./components/Grid/Grid";
 
 const App = () => {
     const [status, setStatus] = useState(null);
-
-    useEffect(() => {
-        console.log("Render time");
-    }, []);
 
     const handleClick = (e) => {
         e.preventDefault();

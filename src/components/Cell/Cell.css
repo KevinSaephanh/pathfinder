@@ -13,20 +13,20 @@
     background: #444444;
 }
 
-td {
-    /* border-right: solid 1.6px #444444 !important; */
+.right-false {
+    border-right: 1.6px solid #444444 !important;
 }
 
-.start-node {
-    background: #086623;
+.left-false {
+    border-left: 1.6px solid #444444 !important;
 }
 
-.goal-node {
-    background: gold;
+.top-false {
+    border-top: 1.6px solid #444444 !important;
 }
 
-.wall-node {
-    background: black;
+.bottom-false {
+    border-bottom: 1.6px solid #444444 !important;
 }
 
 @media only screen and (max-width: 900px) {
