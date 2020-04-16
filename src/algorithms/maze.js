@@ -1,9 +1,8 @@
-const HEIGHT = 20;
-const WIDTH = 20;
-let grid = [];
+const MAX_ROWS = 20;
+const MAX_COLS = 20;
 
 export const initGrid = () => {
-    grid = [];
+    const grid = [];
     for (let row = 0; row < 20; row++) {
         grid[row] = []; // Current row
         for (let col = 0; col < 20; col++) {
@@ -15,56 +14,57 @@ export const initGrid = () => {
 };
 
 export const primsMaze = (grid) => {
-    const row = Math.floor(Math.random() * 21);
-    const col = Math.floor(Math.random() * 21);
+    const row = Math.floor(Math.random() * 20);
+    const col = Math.floor(Math.random() * 20);
     const rootCell = grid[row][col];
+    rootCell.visited = true;
     const toVisit = [];
 
     toVisit.push(rootCell);
     while (toVisit.length > 0) {
-        let currCell = toVisit.pop();
-        currCell.visited = true;
+        const currCell = toVisit.pop();
         console.log(currCell);
 
-        const shuffledArray = shuffle(currCell.getFrontiers());
-        shuffledArray.forEach((frontier) => {
-            frontier = grid[frontier[0]][frontier[1]];
-            if (!frontier.visited) {
+        const frontiers = currCell.getFrontiers(grid);
+        if (frontiers.length > 0) {
+            // Randomize frontiers then traverse them
+            const shuffledFrontiers = shuffle(frontiers);
+            shuffledFrontiers.forEach((frontier) => {
+                frontier.visited = true;
                 breakWall(currCell, frontier);
                 toVisit.push(frontier);
-            }
-        });
+            });
+        }
     }
 
     return grid;
 };
 
 const breakWall = (currCell, frontier) => {
-    const x = currCell.row - frontier.row;
-    const y = currCell.col - frontier.col;
-
-    // Break right wall
-    if (x === 1) {
-        currCell.walls[3] = false;
-        frontier.walls[1] = false;
-    }
-
-    // Break left wall
-    else if (x === -1) {
-        currCell.walls[1] = false;
-        frontier.walls[3] = false;
-    }
+    const row1 = currCell.row;
+    const col1 = currCell.col;
+    const row2 = frontier.row;
+    const col2 = frontier.col;
 
     // Break top wall
-    if (y === 1) {
+    if (row1 - 1 === row2 && col1 === col2) {
         currCell.walls[0] = false;
         frontier.walls[2] = false;
     }
-
     // Break bottom wall
-    else if (y === -1) {
+    else if (row1 + 1 === row2 && col1 === col2) {
         currCell.walls[2] = false;
         frontier.walls[0] = false;
+    }
+    // Break right wall
+    else if (row1 === row2 && col1 + 1 === col2) {
+        currCell.walls[3] = false;
+        frontier.walls[1] = false;
+    }
+    // Break left wall
+    else {
+        currCell.walls[1] = false;
+        frontier.walls[3] = false;
     }
 };
 
@@ -86,30 +86,51 @@ class Cell {
         this.walls = [true, true, true, true];
     }
 
-    getFrontiers() {
-        const top = [this.row - 1, this.col];
-        const right = [this.row, this.col + 1];
-        const bottom = [this.row + 1, this.col];
-        const left = [this.row, this.col - 1];
-        const frontiers = [top, right, bottom, left];
+    getFrontiers(grid) {
+        let top = [this.row - 1, this.col];
+        let bottom = [this.row + 1, this.col];
+        let right = [this.row, this.col + 1];
+        let left = [this.row, this.col - 1];
+        const frontiers = [];
 
-        for (let i = frontiers.length - 1; i >= 0; i--) {
-            if (!this.isValidFrontier(frontiers[i])) {
-                frontiers.splice(i, 1);
-            } else if (grid[frontiers[i][0]][frontiers[i][1]].visited) {
-                frontiers.splice(i, 1);
-            }
+        if (this.isEligibleFrontier(top, grid)) {
+            top = grid[top[0]][top[1]];
+            frontiers.push(top);
         }
 
-        console.log(frontiers);
+        if (this.isEligibleFrontier(bottom, grid)) {
+            bottom = grid[bottom[0]][bottom[1]];
+            frontiers.push(bottom);
+        }
+
+        if (this.isEligibleFrontier(right, grid)) {
+            right = grid[right[0]][right[1]];
+            frontiers.push(right);
+        }
+
+        if (this.isEligibleFrontier(left, grid)) {
+            left = grid[left[0]][left[1]];
+            frontiers.push(left);
+        }
+
         return frontiers;
     }
 
+    isEligibleFrontier(frontier, grid) {
+        if (this.isValidFrontier(frontier)) {
+            const x = frontier[0];
+            const y = frontier[1];
+            frontier = grid[x][y];
+            return !frontier.visited;
+        }
+    }
+
+    // This method checks a frontier to see if it lies within the bounds of the grid
     isValidFrontier(frontier) {
         return (
-            frontier[0] < HEIGHT &&
+            frontier[0] < MAX_ROWS &&
             frontier[0] >= 0 &&
-            frontier[1] < WIDTH &&
+            frontier[1] < MAX_COLS &&
             frontier[1] >= 0
         );
     }

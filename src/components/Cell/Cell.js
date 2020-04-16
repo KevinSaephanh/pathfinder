@@ -9,10 +9,10 @@ export const Cell = (props) => {
         <td
             key={`(${row},${col})`}
             className={`cell ${cellType} 
-                right-${walls[0]} 
-                left-${walls[1]} 
-                top-${walls[2]} 
-                bottom-${walls[3]} 
+                top-${walls[0]} 
+                bottom-${walls[1]} 
+                right-${walls[2]} 
+                left-${walls[3]} 
                 visited-${visited}`}
         ></td>
     );
