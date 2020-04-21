@@ -23,9 +23,9 @@ export const Grid = (props) => {
 
     const initGrid = () => {
         const newGrid = [];
-        for (let row = 0; row < 20; row++) {
+        for (let row = 0; row < 25; row++) {
             newGrid[row] = []; // Current row
-            for (let col = 0; col < 20; col++) {
+            for (let col = 0; col < 25; col++) {
                 const cell = createCell(row, col);
                 newGrid[row].push(cell);
             }

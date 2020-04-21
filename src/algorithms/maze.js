@@ -1,37 +1,38 @@
+/* This method uses randomized prim's algorithm
+ * to generate a completely random maze
+ */
 export const primsMaze = (grid) => {
     const row = Math.floor(Math.random() * 20);
     const col = Math.floor(Math.random() * 20);
     const rootCell = grid[row][col];
     const toVisit = [];
-    const maze = [];
 
+    rootCell.visited = true;
     toVisit.push(rootCell);
     while (toVisit.length > 0) {
         const currCell = toVisit.pop();
-        currCell.visited = true;
-        console.log(currCell);
-        if (!maze.includes(currCell)) maze.push(currCell);
 
-        const frontiers = getFrontiers(grid, row, col);
+        const frontiers = getFrontiers(grid, currCell.row, currCell.col);
         if (frontiers.length > 0) {
             // Randomize frontiers then traverse them
             const shuffledFrontiers = shuffle(frontiers);
             shuffledFrontiers.forEach((frontier) => {
                 frontier = grid[frontier[0]][frontier[1]];
                 if (!frontier.visited) {
+                    frontier.visited = true;
                     breakWall(currCell, frontier);
                     toVisit.push(frontier);
                 }
             });
         }
-        toVisit.forEach((n) => {
-            console.log(n);
-        });
     }
 
     return grid;
 };
 
+// This method takes two cells and determines which wall to break
+// depending on the results of subtracting the first cell's row/col
+// by the neighboring cell's row/col
 const breakWall = (currCell, frontier) => {
     const row1 = currCell.row;
     const col1 = currCell.col;
@@ -50,15 +51,15 @@ const breakWall = (currCell, frontier) => {
         currCell.walls[1] = false;
         frontier.walls[0] = false;
     }
-    // Break right wall
-    if (x === 1) {
-        currCell.walls[2] = false;
-        frontier.walls[3] = false;
-    }
     // Break left wall
-    else if (x === -1) {
+    else if (x === 1) {
         currCell.walls[3] = false;
         frontier.walls[2] = false;
+    }
+    // Break right wall
+    else if (x === -1) {
+        currCell.walls[2] = false;
+        frontier.walls[3] = false;
     }
 };
 
@@ -72,6 +73,7 @@ const shuffle = (arr) => {
     return arr;
 };
 
+// This method returns all neighboring cells of the current cell
 const getFrontiers = (grid, row, col) => {
     let top = [row - 1, col];
     let bottom = [row + 1, col];
@@ -94,7 +96,6 @@ const getFrontiers = (grid, row, col) => {
     if (isValidFrontier(left, grid)) {
         frontiers.push(left);
     }
-    console.log(frontiers);
 
     return frontiers;
 };
