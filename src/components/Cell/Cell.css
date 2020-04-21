@@ -2,7 +2,6 @@
     height: 20px;
     width: 17px;
     border: 1.6px solid white;
-    overflow: hidden;
 }
 
 .visited-false {
@@ -14,19 +13,23 @@
 }
 
 .right-false {
-    border-right: 1.6px solid #444444 !important;
+    border-right-color: #444444 !important;
+    /* border-right: 1.6px solid #444444 !important; */
 }
 
 .left-false {
-    border-left: 1.6px solid #444444 !important;
+    border-left-color: #444444 !important;
+    /* border-left: 1.6px solid #444444 !important; */
 }
 
 .top-false {
-    border-top: 1.6px solid #444444 !important;
+    border-top-color: #444444 !important;
+    /* border-top: 1.6px solid #444444 !important; */
 }
 
 .bottom-false {
-    border-bottom: 1.6px solid #444444 !important;
+    border-bottom-color: #444444 !important;
+    /* border-bottom: 1.6px solid #444444 !important; */
 }
 
 @media only screen and (max-width: 900px) {

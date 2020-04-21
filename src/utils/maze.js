@@ -27,7 +27,19 @@ export const primsMaze = (grid) => {
         }
     }
 
-    return grid;
+    return gridToMaze(grid);
+};
+
+const gridToMaze = (grid) => {
+    const maze = [];
+
+    for (let x = 0; x < 25; x++) {
+        maze[x] = [];
+        for (let j = 0; j < 25; j++) {
+            maze[x].push(grid[x][j]);
+        }
+    }
+    return maze;
 };
 
 // This method takes two cells and determines which wall to break

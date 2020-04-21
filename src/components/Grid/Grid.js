@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./Grid.css";
 import { Cell } from "../Cell/Cell";
-import { primsMaze } from "../../algorithms/maze";
+import { primsMaze } from "../../utils/maze";
 
 export const Grid = (props) => {
     const [grid, setGrid] = useState([]);
 
     useEffect(() => {
-        console.log(props.status);
         switch (props.status) {
             case "generate":
                 const primsGrid = primsMaze(grid);
