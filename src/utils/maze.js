@@ -1,7 +1,20 @@
+export const initGrid = () => {
+    const newGrid = [];
+    for (let row = 0; row < 25; row++) {
+        newGrid[row] = []; // Current row
+        for (let col = 0; col < 25; col++) {
+            const cell = createCell(row, col);
+            newGrid[row].push(cell);
+        }
+    }
+    return newGrid;
+};
+
 /* This method uses randomized prim's algorithm
  * to generate a completely random maze
  */
-export const primsMaze = (grid) => {
+export const primsMaze = () => {
+    const grid = initGrid();
     const row = Math.floor(Math.random() * 20);
     const col = Math.floor(Math.random() * 20);
     const rootCell = grid[row][col];
@@ -27,19 +40,16 @@ export const primsMaze = (grid) => {
         }
     }
 
-    return gridToMaze(grid);
+    return grid;
 };
 
-const gridToMaze = (grid) => {
-    const maze = [];
-
-    for (let x = 0; x < 25; x++) {
-        maze[x] = [];
-        for (let j = 0; j < 25; j++) {
-            maze[x].push(grid[x][j]);
-        }
-    }
-    return maze;
+export const createCell = (row, col) => {
+    return {
+        row,
+        col,
+        visited: false,
+        walls: [true, true, true, true],
+    };
 };
 
 // This method takes two cells and determines which wall to break
@@ -54,22 +64,22 @@ const breakWall = (currCell, frontier) => {
     const y = row1 - row2;
 
     // Break top wall
-    if (y === 1) {
+    if (x === 0 && y === 1) {
         currCell.walls[0] = false;
         frontier.walls[1] = false;
     }
     // Break bottom wall
-    else if (y === -1) {
+    else if (x === 0 && y === -1) {
         currCell.walls[1] = false;
         frontier.walls[0] = false;
     }
     // Break left wall
-    else if (x === 1) {
+    if (x === 1 && y === 0) {
         currCell.walls[3] = false;
         frontier.walls[2] = false;
     }
     // Break right wall
-    else if (x === -1) {
+    else if (x === -1 && y === 0) {
         currCell.walls[2] = false;
         frontier.walls[3] = false;
     }

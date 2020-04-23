@@ -4,32 +4,33 @@
     border: 1.6px solid white;
 }
 
-.visited-false {
-    background: blue;
+#cell-0-0 {
+    background: rgb(95, 255, 47);
 }
 
-.visited-true {
+#cell-24-24 {
+    background: yellow;
+}
+
+.visited-true,
+.visited-false {
     background: #444444;
 }
 
 .right-false {
     border-right-color: #444444 !important;
-    /* border-right: 1.6px solid #444444 !important; */
 }
 
 .left-false {
     border-left-color: #444444 !important;
-    /* border-left: 1.6px solid #444444 !important; */
 }
 
 .top-false {
     border-top-color: #444444 !important;
-    /* border-top: 1.6px solid #444444 !important; */
 }
 
 .bottom-false {
     border-bottom-color: #444444 !important;
-    /* border-bottom: 1.6px solid #444444 !important; */
 }
 
 @media only screen and (max-width: 900px) {

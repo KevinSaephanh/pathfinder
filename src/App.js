@@ -23,7 +23,11 @@ const App = () => {
                 <button name="clear" onClick={handleClick}>
                     CLEAR
                 </button>
-                <button name="start" onClick={handleClick}>
+                <button
+                    name="start"
+                    disabled={status !== "generate"}
+                    onClick={handleClick}
+                >
                     START
                 </button>
             </header>

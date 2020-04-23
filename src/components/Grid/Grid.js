@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./Grid.css";
 import { Cell } from "../Cell/Cell";
-import { primsMaze } from "../../utils/maze";
+import { primsMaze, initGrid } from "../../utils/maze";
 
 export const Grid = (props) => {
-    const [grid, setGrid] = useState([]);
+    const [grid, setGrid] = useState([[]]);
 
     useEffect(() => {
         switch (props.status) {
             case "generate":
-                const primsGrid = primsMaze(grid);
-                setGrid(primsGrid);
+                setGrid([]);
+                setPrimsMaze();
                 break;
             case "start":
                 break;
@@ -20,27 +20,20 @@ export const Grid = (props) => {
         }
     }, [props.status]);
 
-    const initGrid = () => {
-        const newGrid = [];
-        for (let row = 0; row < 25; row++) {
-            newGrid[row] = []; // Current row
-            for (let col = 0; col < 25; col++) {
-                const cell = createCell(row, col);
-                newGrid[row].push(cell);
-            }
-        }
-        return newGrid;
+    const setPrimsMaze = () => {
+        const primsGrid = primsMaze();
+        let i = 1;
+        primsGrid.map((row) => {
+            return row.map((cell) => {
+                i++;
+                return setTimeout(() => {
+                    setGrid({ ...grid[cell.row], cell });
+                }, 700 * i);
+            });
+        });
     };
 
-    const createCell = (row, col) => {
-        return {
-            row,
-            col,
-            visited: false,
-            walls: [true, true, true, true],
-        };
-    };
-
+    console.log(grid);
     return (
         <table className="grid">
             <tbody>
