@@ -13,8 +13,7 @@ export const initGrid = () => {
 /* This method uses randomized prim's algorithm
  * to generate a completely random maze
  */
-export const primsMaze = () => {
-    const grid = initGrid();
+export const primsMaze = (grid) => {
     const row = Math.floor(Math.random() * 20);
     const col = Math.floor(Math.random() * 20);
     const rootCell = grid[row][col];
@@ -24,6 +23,7 @@ export const primsMaze = () => {
     toVisit.push(rootCell);
     while (toVisit.length > 0) {
         const currCell = toVisit.pop();
+        console.log(currCell);
 
         const frontiers = getFrontiers(grid, currCell.row, currCell.col);
         if (frontiers.length > 0) {

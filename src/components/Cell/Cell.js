@@ -3,21 +3,29 @@ import "./Cell.css";
 
 export const Cell = (props) => {
     const [cellData, setCellData] = useState({
-        row: null,
-        col: null,
-        visited: false,
-        walls: [],
+        row: props.row,
+        col: props.col,
+        visited: props.visited,
+        walls: props.walls,
     });
     const { row, col, visited, walls } = cellData;
 
     useEffect(() => {
-        setCellData({
-            row: props.row,
-            col: props.col,
-            visited: props.visited,
-            walls: props.walls,
-        });
-    }, [props.walls]);
+        // Set each cell in sequence to animate
+        // the generation of the maze
+        const interval = setInterval(() => {
+            setCellData({
+                row: props.row,
+                col: props.col,
+                visited: props.visited,
+                walls: props.walls,
+            });
+        }, 100 * props.count);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [props.visited]);
 
     return (
         <td

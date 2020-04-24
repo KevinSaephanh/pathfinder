@@ -5,12 +5,12 @@ import { primsMaze, initGrid } from "../../utils/maze";
 
 export const Grid = (props) => {
     const [grid, setGrid] = useState([[]]);
+    let count = 1; // Used for delayed individual cell rendering
 
     useEffect(() => {
         switch (props.status) {
             case "generate":
-                setGrid([]);
-                setPrimsMaze();
+                setGrid(primsMaze(grid));
                 break;
             case "start":
                 break;
@@ -20,20 +20,6 @@ export const Grid = (props) => {
         }
     }, [props.status]);
 
-    const setPrimsMaze = () => {
-        const primsGrid = primsMaze();
-        let i = 1;
-        primsGrid.map((row) => {
-            return row.map((cell) => {
-                i++;
-                return setTimeout(() => {
-                    setGrid({ ...grid[cell.row], cell });
-                }, 700 * i);
-            });
-        });
-    };
-
-    console.log(grid);
     return (
         <table className="grid">
             <tbody>
@@ -41,6 +27,7 @@ export const Grid = (props) => {
                     <tr className="grid-row" key={rowIndex}>
                         {row.map((cell, nodeIndex) => {
                             const { row, col, visited, walls } = cell;
+                            count++;
 
                             return (
                                 <Cell
@@ -49,6 +36,7 @@ export const Grid = (props) => {
                                     col={col}
                                     visited={visited}
                                     walls={walls}
+                                    count={count}
                                 ></Cell>
                             );
                         })}
