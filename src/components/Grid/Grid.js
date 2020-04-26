@@ -12,7 +12,7 @@ export const Grid = (props) => {
             case "generate":
                 setGrid(primsMaze(grid));
                 break;
-            case "start":
+            case "solve":
                 break;
             default:
                 setGrid(initGrid);

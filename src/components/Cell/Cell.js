@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Cell.css";
+
+const usePrevious = (value) => {
+    const ref = useRef();
+    useEffect(() => {
+        ref.current = value;
+    });
+    return ref.current;
+};
 
 export const Cell = (props) => {
     const [cellData, setCellData] = useState({
@@ -20,12 +28,12 @@ export const Cell = (props) => {
                 visited: props.visited,
                 walls: props.walls,
             });
-        }, 100 * props.count);
+        }, 50 * props.count);
 
         return () => {
             clearInterval(interval);
         };
-    }, [props.visited]);
+    }, [props.walls]);
 
     return (
         <td

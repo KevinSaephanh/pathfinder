@@ -15,7 +15,7 @@ const App = () => {
             <header>
                 <button
                     name="generate"
-                    disabled={status === "start"}
+                    disabled={status === "solve"}
                     onClick={handleClick}
                 >
                     GENERATE
@@ -24,11 +24,11 @@ const App = () => {
                     CLEAR
                 </button>
                 <button
-                    name="start"
+                    name="solve"
                     disabled={status !== "generate"}
                     onClick={handleClick}
                 >
-                    START
+                    SOLVE
                 </button>
             </header>
             <Grid status={status} />

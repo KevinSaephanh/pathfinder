@@ -1,9 +1,11 @@
+const Cell = require("./cell");
+
 export const initGrid = () => {
     const newGrid = [];
     for (let row = 0; row < 25; row++) {
         newGrid[row] = []; // Current row
         for (let col = 0; col < 25; col++) {
-            const cell = createCell(row, col);
+            const cell = new Cell(row, col);
             newGrid[row].push(cell);
         }
     }
@@ -20,12 +22,13 @@ export const primsMaze = (grid) => {
     const toVisit = [];
 
     rootCell.visited = true;
+    console.log(rootCell);
     toVisit.push(rootCell);
     while (toVisit.length > 0) {
         const currCell = toVisit.pop();
-        console.log(currCell);
 
-        const frontiers = getFrontiers(grid, currCell.row, currCell.col);
+        const frontiers = currCell.getFrontiers(grid);
+        currCell.getOptimalFrontier(grid);
         if (frontiers.length > 0) {
             // Randomize frontiers then traverse them
             const shuffledFrontiers = shuffle(frontiers);
@@ -41,15 +44,6 @@ export const primsMaze = (grid) => {
     }
 
     return grid;
-};
-
-export const createCell = (row, col) => {
-    return {
-        row,
-        col,
-        visited: false,
-        walls: [true, true, true, true],
-    };
 };
 
 // This method takes two cells and determines which wall to break
@@ -93,41 +87,4 @@ const shuffle = (arr) => {
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
-};
-
-// This method returns all neighboring cells of the current cell
-const getFrontiers = (grid, row, col) => {
-    let top = [row - 1, col];
-    let bottom = [row + 1, col];
-    let right = [row, col + 1];
-    let left = [row, col - 1];
-    const frontiers = [];
-
-    if (isValidFrontier(top, grid)) {
-        frontiers.push(top);
-    }
-
-    if (isValidFrontier(bottom, grid)) {
-        frontiers.push(bottom);
-    }
-
-    if (isValidFrontier(right, grid)) {
-        frontiers.push(right);
-    }
-
-    if (isValidFrontier(left, grid)) {
-        frontiers.push(left);
-    }
-
-    return frontiers;
-};
-
-// This method checks a frontier to see if it lies within the bounds of the grid
-const isValidFrontier = (frontier, grid) => {
-    return (
-        frontier[0] < grid.length &&
-        frontier[0] >= 0 &&
-        frontier[1] < grid.length &&
-        frontier[1] >= 0
-    );
 };
