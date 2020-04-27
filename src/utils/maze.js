@@ -1,4 +1,4 @@
-const Cell = require("./cell");
+import Cell from "./cell";
 
 export const initGrid = () => {
     const newGrid = [];
@@ -20,22 +20,26 @@ export const primsMaze = (grid) => {
     const col = Math.floor(Math.random() * 20);
     const rootCell = grid[row][col];
     const toVisit = [];
+    const visited = [];
 
     rootCell.visited = true;
-    console.log(rootCell);
     toVisit.push(rootCell);
     while (toVisit.length > 0) {
         const currCell = toVisit.pop();
+        visited.push(currCell);
 
         const frontiers = currCell.getFrontiers(grid);
-        currCell.getOptimalFrontier(grid);
         if (frontiers.length > 0) {
             // Randomize frontiers then traverse them
             const shuffledFrontiers = shuffle(frontiers);
             shuffledFrontiers.forEach((frontier) => {
                 frontier = grid[frontier[0]][frontier[1]];
-                if (!frontier.visited) {
-                    frontier.visited = true;
+
+                // Check if frontier is in neither sets
+                if (
+                    !visited.includes(frontier) &&
+                    !toVisit.includes(frontier)
+                ) {
                     breakWall(currCell, frontier);
                     toVisit.push(frontier);
                 }

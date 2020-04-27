@@ -12,7 +12,10 @@
     background: yellow;
 }
 
-.visited-true,
+.visited-true {
+    background: blue !important;
+}
+
 .visited-false {
     background: #444444;
 }

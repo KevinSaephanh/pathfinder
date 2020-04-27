@@ -1,10 +1,9 @@
-class Cell {
+export default class Cell {
     constructor(row, col) {
         this.row = row;
         this.col = col;
         this.visited = false;
         this.walls = [true, true, true, true];
-        this.traversed = false;
         this.g = 0;
         this.h = 0;
         this.f = 0;
@@ -47,18 +46,20 @@ class Cell {
         );
     };
 
-    getOptimalFrontier = (grid) => {
-        const frontiers = this.getFrontiers(grid);
-        const fSet = [];
-
-        frontiers.forEach((frontier) => {
-            frontier = grid[frontier[0]][frontier[1]];
-            const endNode = grid[24][24];
-            const f = this.calcF(frontier, endNode);
-            fSet.push(f);
-        });
-
-        return Math.min(...fSet);
+    // Check if current node has open passage between it
+    // and a neighboring node
+    canTraverse = (frontier) => {
+        if (this.walls[0] === false && frontier.walls[1] === false) {
+            return true;
+        } else if (this.walls[1] === false && frontier.walls[0] === false) {
+            return true;
+        } else if (this.walls[2] === false && frontier.walls[3] === false) {
+            return true;
+        } else if (this.walls[3] === false && frontier.walls[2] === false) {
+            return true;
+        } else {
+            return false;
+        }
     };
 
     // The movement cost to move from the starting node
@@ -84,5 +85,3 @@ class Cell {
         return this.calcG(adjNode) + this.calcH(adjNode, endNode);
     };
 }
-
-module.exports = Cell;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Grid.css";
 import { Cell } from "../Cell/Cell";
 import { primsMaze, initGrid } from "../../utils/maze";
+import { aStar } from "../../utils/aStar";
 
 export const Grid = (props) => {
     const [grid, setGrid] = useState([[]]);
@@ -13,6 +14,7 @@ export const Grid = (props) => {
                 setGrid(primsMaze(grid));
                 break;
             case "solve":
+                setGrid(aStar(grid));
                 break;
             default:
                 setGrid(initGrid);
