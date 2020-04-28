@@ -49,17 +49,12 @@ export default class Cell {
     // Check if current node has open passage between it
     // and a neighboring node
     canTraverse = (frontier) => {
-        if (this.walls[0] === false && frontier.walls[1] === false) {
-            return true;
-        } else if (this.walls[1] === false && frontier.walls[0] === false) {
-            return true;
-        } else if (this.walls[2] === false && frontier.walls[3] === false) {
-            return true;
-        } else if (this.walls[3] === false && frontier.walls[2] === false) {
-            return true;
-        } else {
-            return false;
-        }
+        return (
+            (this.walls[0] === false && frontier.walls[1] === false) ||
+            (this.walls[1] === false && frontier.walls[0] === false) ||
+            (this.walls[2] === false && frontier.walls[3] === false) ||
+            (this.walls[3] === false && frontier.walls[2] === false)
+        );
     };
 
     // The movement cost to move from the starting node
@@ -79,9 +74,5 @@ export default class Cell {
         const y = Math.abs(endNode.col - adjNode.col);
 
         return x + y;
-    };
-
-    calcF = (adjNode, endNode) => {
-        return this.calcG(adjNode) + this.calcH(adjNode, endNode);
     };
 }

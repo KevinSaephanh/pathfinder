@@ -9,34 +9,31 @@ export const aStar = (grid) => {
     while (openSet.length > 0) {
         const currNode = getLowestCostFNode();
         currNode.visited = true;
-        console.log(currNode);
         closedSet.push(currNode);
 
         // Current node has reached the end of the maze
         if (currNode === endNode) {
             console.log("SOLVED!");
-            return grid;
+            break;
         }
 
         const frontiers = currNode.getFrontiers(grid);
         frontiers.forEach((frontier) => {
             frontier = grid[frontier[0]][frontier[1]];
-            frontier.f = frontier.calcF(frontier, endNode);
 
-            if (
-                isValidPath(currNode, frontier) &&
-                !openSet.includes(frontier)
-            ) {
-                openSet.push(frontier);
-            } else if (
-                isValidPath(currNode, frontier) &&
-                openSet.includes(frontier) &&
-                frontier.f < currNode.f
-            ) {
-                openSet.push(frontier);
+            if (isValidPath(currNode, frontier)) {
+                frontier.g = frontier.calcG(currNode);
+                frontier.h = frontier.calcH(frontier, endNode);
+                frontier.f = frontier.g + frontier.h;
+
+                if (!openSet.includes(frontier) || frontier.g < currNode.g) {
+                    openSet.push(frontier);
+                }
             }
         });
     }
+    console.log(closedSet);
+    return grid;
 };
 
 const getLowestCostFNode = () => {
