@@ -22,7 +22,6 @@ export const primsMaze = (grid) => {
     const toVisit = [];
     const visited = [];
 
-    rootCell.visited = true;
     toVisit.push(rootCell);
     while (toVisit.length > 0) {
         const currCell = toVisit.pop();

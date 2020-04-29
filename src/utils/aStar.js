@@ -10,6 +10,7 @@ export const aStar = (grid) => {
         const currNode = getLowestCostFNode();
         currNode.visited = true;
         closedSet.push(currNode);
+        // console.log(currNode.row + ", " + currNode.col + " " + currNode.walls);
 
         // Current node has reached the end of the maze
         if (currNode === endNode) {
@@ -32,7 +33,7 @@ export const aStar = (grid) => {
             }
         });
     }
-    console.log(closedSet);
+
     return grid;
 };
 
@@ -51,5 +52,23 @@ const getLowestCostFNode = () => {
 };
 
 const isValidPath = (currNode, adjNode) => {
-    return currNode.canTraverse(adjNode) && !closedSet.includes(adjNode);
+    const row1 = currNode.row;
+    const col1 = currNode.col;
+    const row2 = adjNode.row;
+    const col2 = adjNode.col;
+
+    if (!closedSet.includes(adjNode)) {
+        const x = col1 - col2;
+        const y = row1 - row2;
+
+        if (x === 0 && y === 1) {
+            return currNode.walls[0] === false && adjNode.walls[1] === false;
+        } else if (x === 0 && y === -1) {
+            return currNode.walls[1] === false && adjNode.walls[0] === false;
+        } else if (x === 1 && y === 0) {
+            return currNode.walls[3] === false && adjNode.walls[2] === false;
+        } else if (x === -1 && y === 0) {
+            return currNode.walls[2] === false && adjNode.walls[3] === false;
+        }
+    }
 };

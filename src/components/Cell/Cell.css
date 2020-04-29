@@ -2,6 +2,7 @@
     height: 20px;
     width: 17px;
     border: 1.6px solid white;
+    background: #444444;
 }
 
 #cell-0-0 {
@@ -12,12 +13,11 @@
     background: blue;
 }
 
-.visited-true {
-    background: rgb(82, 255, 47) !important;
-}
-
-.visited-false {
-    background: #444444;
+.path {
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+    background: green;
 }
 
 .right-false {

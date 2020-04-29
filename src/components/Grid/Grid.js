@@ -5,7 +5,7 @@ import { primsMaze, initGrid } from "../../utils/maze";
 import { aStar } from "../../utils/aStar";
 
 export const Grid = (props) => {
-    const [grid, setGrid] = useState([[]]);
+    const [grid, setGrid] = useState(initGrid);
     let count = 1; // Used for delayed individual cell rendering
 
     useEffect(() => {
@@ -14,7 +14,7 @@ export const Grid = (props) => {
                 setGrid(primsMaze(grid));
                 break;
             case "solve":
-                setGrid(aStar(grid));
+                setGrid(aStar([...grid]));
                 break;
             default:
                 setGrid(initGrid);
