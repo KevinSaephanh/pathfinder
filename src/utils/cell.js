@@ -4,6 +4,8 @@ export default class Cell {
         this.col = col;
         this.visited = false;
         this.walls = [true, true, true, true];
+        this.parent = null;
+        this.isPathNode = false;
         this.g = 0;
         this.h = 0;
         this.f = 0;
@@ -55,24 +57,5 @@ export default class Cell {
             (this.walls[2] === false && frontier.walls[3] === false) ||
             (this.walls[3] === false && frontier.walls[2] === false)
         );
-    };
-
-    // The movement cost to move from the starting node
-    // to a given node on the grid
-    calcG = (adjNode) => {
-        const x = Math.abs(adjNode.row - this.row);
-        const y = Math.abs(adjNode.col - this.col);
-
-        return Math.sqrt(x + y);
-    };
-
-    // The estimated movement cost to move from the
-    // current node to the end node
-    // Manhattan distance used to calculate heuristic
-    calcH = (adjNode, endNode) => {
-        const x = Math.abs(endNode.row - adjNode.row);
-        const y = Math.abs(endNode.col - adjNode.col);
-
-        return x + y;
     };
 }

@@ -45,8 +45,6 @@ export const primsMaze = (grid) => {
             });
         }
     }
-
-    return grid;
 };
 
 // This method takes two cells and determines which wall to break

@@ -13,11 +13,15 @@
     background: blue;
 }
 
-.path {
+.visited-true {
     height: 80%;
     width: 80%;
     border-radius: 50%;
-    background: green;
+    background: white;
+}
+
+.path-true {
+    background: green !important;
 }
 
 .right-false {

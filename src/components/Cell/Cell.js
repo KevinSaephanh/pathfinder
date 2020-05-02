@@ -3,7 +3,7 @@ import "./Cell.css";
 
 export const Cell = (props) => {
     const [cellData, setCellData] = useState(props);
-    const { row, col, visited, walls } = cellData;
+    const { row, col, visited, walls, isPathNode } = cellData;
 
     useEffect(() => {
         // Set each cell in sequence to animate
@@ -16,7 +16,7 @@ export const Cell = (props) => {
             clearInterval(interval);
         };
     }, [props]);
-    
+
     return (
         <td
             key={`(${row},${col})`}
@@ -27,7 +27,9 @@ export const Cell = (props) => {
                 right-${walls[2]} 
                 left-${walls[3]} `}
         >
-            {visited ? <div className="path"></div> : null}
+            {visited ? (
+                <div className={`visited-${visited} path-${isPathNode}`}></div>
+            ) : null}
         </td>
     );
 };

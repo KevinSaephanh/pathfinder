@@ -10,7 +10,6 @@ export const aStar = (grid) => {
         const currNode = getLowestCostFNode();
         currNode.visited = true;
         closedSet.push(currNode);
-        // console.log(currNode.row + ", " + currNode.col + " " + currNode.walls);
 
         // Current node has reached the end of the maze
         if (currNode === endNode) {
@@ -22,28 +21,52 @@ export const aStar = (grid) => {
         frontiers.forEach((frontier) => {
             frontier = grid[frontier[0]][frontier[1]];
 
-            if (isValidPath(currNode, frontier)) {
-                frontier.g = frontier.calcG(currNode);
-                frontier.h = frontier.calcH(frontier, endNode);
+            if (
+                isValidPath(currNode, frontier) &&
+                !closedSet.includes(frontier)
+            ) {
+                // Calculate g, h, and f for frontier
+                frontier.g = currNode.g + calcCost(currNode, frontier);
+                frontier.h = calcHeuristic(endNode, frontier);
                 frontier.f = frontier.g + frontier.h;
 
-                if (!openSet.includes(frontier) || frontier.g < currNode.g) {
-                    openSet.push(frontier);
+                // If the frontier is already in the openSet and it's g value
+                // is greater than the current node's value, then it will not be used
+                if (openSet.includes(frontier) && frontier.g > currNode.g) {
+                    return;
                 }
+
+                frontier.parent = currNode;
+                openSet.push(frontier);
             }
         });
     }
 
+    generatePath(grid, endNode);
     return grid;
 };
 
+const calcCost = (currNode, adjNode) => {
+    const x = Math.abs(currNode.row - adjNode.row);
+    const y = Math.abs(currNode.col - adjNode.col);
+    return x + y;
+};
+
+// The estimated movement cost to move from the
+// current node to the end node
+// Manhattan distance used to calculate heuristic
+const calcHeuristic = (endNode, adjNode) => {
+    const x = Math.abs(endNode.row - adjNode.row);
+    const y = Math.abs(endNode.col - adjNode.col);
+
+    return x + y;
+};
+
 const getLowestCostFNode = () => {
-    let index;
-    let largest = 1000;
+    let index = 0;
 
     for (let i = 0; i < openSet.length; i++) {
-        if (largest > openSet[i].f) {
-            largest = openSet[i].f;
+        if (openSet[index].f > openSet[i].f) {
             index = i;
         }
     }
@@ -51,24 +74,37 @@ const getLowestCostFNode = () => {
     return openSet.splice(index, 1)[0];
 };
 
+// This method checks if there is a wall between the current node
+// and the adjacent node to determine if the path is traversable
 const isValidPath = (currNode, adjNode) => {
     const row1 = currNode.row;
     const col1 = currNode.col;
     const row2 = adjNode.row;
     const col2 = adjNode.col;
 
-    if (!closedSet.includes(adjNode)) {
-        const x = col1 - col2;
-        const y = row1 - row2;
+    const x = col1 - col2;
+    const y = row1 - row2;
 
-        if (x === 0 && y === 1) {
-            return currNode.walls[0] === false && adjNode.walls[1] === false;
-        } else if (x === 0 && y === -1) {
-            return currNode.walls[1] === false && adjNode.walls[0] === false;
-        } else if (x === 1 && y === 0) {
-            return currNode.walls[3] === false && adjNode.walls[2] === false;
-        } else if (x === -1 && y === 0) {
-            return currNode.walls[2] === false && adjNode.walls[3] === false;
+    if (x === 0 && y === 1) {
+        return currNode.walls[0] === false && adjNode.walls[1] === false;
+    } else if (x === 0 && y === -1) {
+        return currNode.walls[1] === false && adjNode.walls[0] === false;
+    } else if (x === 1 && y === 0) {
+        return currNode.walls[3] === false && adjNode.walls[2] === false;
+    } else if (x === -1 && y === 0) {
+        return currNode.walls[2] === false && adjNode.walls[3] === false;
+    }
+};
+
+const generatePath = (grid, endNode) => {
+    let current = endNode;
+
+    while (current.parent !== null) {
+        if (current.parent) {
+            // Set parent of current node as part of the optimal path
+            const { row, col } = current.parent;
+            grid[row][col].isPathNode = true;
+            current = current.parent;
         }
     }
 };
