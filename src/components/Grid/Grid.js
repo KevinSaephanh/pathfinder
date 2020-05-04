@@ -9,12 +9,39 @@ export const Grid = (props) => {
     let count = 1; // Used for delayed individual cell rendering
 
     useEffect(() => {
+        const oldGrid = [...grid];
+
         switch (props.status) {
             case "generate":
-                primsMaze(grid);
+                const maze = primsMaze(grid);
+
+                maze.forEach((cell) => {
+                    // Make a shallow copy of the specific cell and update properties
+                    const gridCell = { ...oldGrid[cell.row][cell.col] };
+                    gridCell.walls = cell.walls;
+
+                    // Put it back in the array
+                    oldGrid[cell.row][cell.col] = gridCell;
+
+                    // Set new grid with updated cell
+                    setGrid(oldGrid);
+                });
                 break;
             case "solve":
-                setGrid(aStar([...grid]));
+                const aStarMaze = aStar(grid);
+
+                aStarMaze.forEach((cell) => {
+                    // Make a shallow copy of the specific cell and update properties
+                    const gridCell = { ...oldGrid[cell.row][cell.col] };
+                    gridCell.visited = cell.visited;
+                    gridCell.isPathNode = cell.isPathNode;
+
+                    // Put it back in the array
+                    oldGrid[cell.row][cell.col] = gridCell;
+
+                    // Set new grid with updated cell
+                    setGrid(oldGrid);
+                });
                 break;
             default:
                 setGrid(initGrid);
@@ -27,7 +54,7 @@ export const Grid = (props) => {
             <tbody>
                 {grid.map((row, rowIndex) => (
                     <tr className="grid-row" key={rowIndex}>
-                        {row.map((cell, nodeIndex) => {
+                        {row.map((cell, key) => {
                             const {
                                 row,
                                 col,
@@ -39,13 +66,15 @@ export const Grid = (props) => {
 
                             return (
                                 <Cell
-                                    key={nodeIndex}
-                                    row={row}
-                                    col={col}
-                                    visited={visited}
-                                    walls={walls}
-                                    count={count}
-                                    isPathNode={isPathNode}
+                                    {...{
+                                        key,
+                                        row,
+                                        col,
+                                        visited,
+                                        walls,
+                                        count,
+                                        isPathNode,
+                                    }}
                                 ></Cell>
                             );
                         })}

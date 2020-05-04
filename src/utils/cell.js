@@ -47,15 +47,4 @@ export default class Cell {
             frontier[1] >= 0
         );
     };
-
-    // Check if current node has open passage between it
-    // and a neighboring node
-    canTraverse = (frontier) => {
-        return (
-            (this.walls[0] === false && frontier.walls[1] === false) ||
-            (this.walls[1] === false && frontier.walls[0] === false) ||
-            (this.walls[2] === false && frontier.walls[3] === false) ||
-            (this.walls[3] === false && frontier.walls[2] === false)
-        );
-    };
 }

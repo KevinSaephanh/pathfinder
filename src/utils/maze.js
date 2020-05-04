@@ -12,9 +12,8 @@ export const initGrid = () => {
     return newGrid;
 };
 
-/* This method uses randomized prim's algorithm
- * to generate a completely random maze
- */
+// This method uses randomized prim's algorithm
+// to generate a completely random maze
 export const primsMaze = (grid) => {
     const row = Math.floor(Math.random() * 20);
     const col = Math.floor(Math.random() * 20);
@@ -45,6 +44,8 @@ export const primsMaze = (grid) => {
             });
         }
     }
+
+    return visited;
 };
 
 // This method takes two cells and determines which wall to break

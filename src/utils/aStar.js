@@ -43,12 +43,13 @@ export const aStar = (grid) => {
     }
 
     generatePath(grid, endNode);
-    return grid;
+    return closedSet;
 };
 
 const calcCost = (currNode, adjNode) => {
     const x = Math.abs(currNode.row - adjNode.row);
     const y = Math.abs(currNode.col - adjNode.col);
+
     return x + y;
 };
 
@@ -98,13 +99,14 @@ const isValidPath = (currNode, adjNode) => {
 
 const generatePath = (grid, endNode) => {
     let current = endNode;
+    current.isPathNode = true;
 
     while (current.parent !== null) {
-        if (current.parent) {
-            // Set parent of current node as part of the optimal path
-            const { row, col } = current.parent;
-            grid[row][col].isPathNode = true;
-            current = current.parent;
-        }
+        const { row, col } = current.parent;
+        const parent = grid[row][col];
+
+        // Set parent of current node as part of the optimal path
+        parent.isPathNode = true;
+        current = parent;
     }
 };

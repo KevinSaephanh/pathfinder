@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./Cell.css";
 
 export const Cell = (props) => {
-    const [cellData, setCellData] = useState(props);
+    const [cellData, setCellData] = useState({
+        row: null,
+        col: null,
+        visited: false,
+        walls: [true, true, true, true],
+        isPathNode: false,
+    });
     const { row, col, visited, walls, isPathNode } = cellData;
 
     useEffect(() => {
@@ -10,7 +16,7 @@ export const Cell = (props) => {
         // the generation of the maze
         const interval = setInterval(() => {
             setCellData(props);
-        }, 10 * props.count);
+        }, 5 * props.count);
 
         return () => {
             clearInterval(interval);

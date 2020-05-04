@@ -1,68 +1,42 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# A* Pathfinder
 
-## Available Scripts
+This project incorporates randomized Prim's algorithm for maze generation as well as A* search algorithm for solving the generated maze
 
-In the project directory, you can run:
 
-### `npm start`
+## Randomized Prim's Algorithm
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Begin with a 25x25 2D grid with each node (cell) lined with walls on all four sides. Create a toVisit list and visited list for nodes. Start by selecting a random node and adding it to the toVisit list. Now follow these steps while there are still nodes in the toVisit list:
+    1. Pop the node from the toVisit list, mark it as the current node, then add it to the visited list.
+    2. Find all frontiers (neighbors) of the current node and randomize their order
+    4. For each frontier in this frontiers list, check if it is in the toVisit and visited list
+    5. If in neither, break the wall dividing the current node and that frontier then push the frontier to the toVisit list.
+    6. Else, continue to the next frontier.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `npm test`
+## A* Search Algorithm
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Terminology:
+    Start node - very first node in the maze (0, 0)
+    End node - very last node in the maze (24, 24)
+    Cost - distance between one node to another node
+    g - exact cost from start node to some node n
+        Frontier.g = currentNode.g + cost
+    h - heuristic estimated cost from node n to end node
+    f - lowest cost in the frontier node n
+        f = g + h
 
-### `npm run build`
+Create an open set and a closed set. Push the start node to the open set and do the following steps while there are still nodes in the open set:
+    1. Remove the node with the lowest f cost from the open set, mark it as the current node, then add it to the closed set.
+    2. If the current node is the end node, then congratulations you win!
+    3. Else, get the frontiers of the current node.
+    4. For each frontier, check if the path between the current node and frontier can be traversed (no wall) and if the frontier is not on the closed set
+    5. If true, calculate g, h, and f for the frontier
+    6. If the frontier is already in the open set AND the frontier's g value is higher than the current node's g value, continue to the next node
+    7. Else, push the frontier to the open set and make it's parent equal to the current node.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Optimal Path
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Create a current node variable and set it equal to the end node. While current node has a parent:
+    1. Find the parent node in the maze and mark it as a path node
+    2. Set the current node equal to it's own parent
