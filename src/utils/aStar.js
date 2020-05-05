@@ -1,13 +1,12 @@
-const openSet = [];
-const closedSet = [];
-
 export const aStar = (grid) => {
+    const openSet = [];
+    const closedSet = [];
     const startNode = grid[0][0];
     const endNode = grid[24][24];
 
     openSet.push(startNode);
     while (openSet.length > 0) {
-        const currNode = getLowestCostFNode();
+        const currNode = getLowestCostFNode(openSet);
         currNode.visited = true;
         closedSet.push(currNode);
 
@@ -25,24 +24,31 @@ export const aStar = (grid) => {
                 isValidPath(currNode, frontier) &&
                 !closedSet.includes(frontier)
             ) {
-                // Calculate g, h, and f for frontier
-                frontier.g = currNode.g + calcCost(currNode, frontier);
-                frontier.h = calcHeuristic(endNode, frontier);
-                frontier.f = frontier.g + frontier.h;
+                if (!openSet.includes(frontier)) {
+                    // Calculate g, h, and f for frontier
+                    frontier.g = currNode.g + calcCost(currNode, frontier);
+                    frontier.h = calcHeuristic(endNode, frontier);
+                    frontier.f = frontier.g + frontier.h;
 
-                // If the frontier is already in the openSet and it's g value
-                // is greater than the current node's value, then it will not be used
-                if (openSet.includes(frontier) && frontier.g > currNode.g) {
-                    return;
+                    // Make parent of frontier equal to current node
+                    frontier.parent = currNode;
+
+                    // Push frontier to open set
+                    openSet.push(frontier);
+                } else if (frontier.g < currNode.g) {
+                    // Make parent of frontier equal to current node
+                    frontier.parent = currNode;
+
+                    // Recalculate g and g for frontier
+                    frontier.g = currNode.g + calcCost(currNode, frontier);
+                    frontier.f = frontier.g + frontier.h;
                 }
-
-                frontier.parent = currNode;
-                openSet.push(frontier);
             }
         });
     }
 
-    generatePath(grid, endNode);
+    generatePath(endNode);
+
     return closedSet;
 };
 
@@ -63,15 +69,17 @@ const calcHeuristic = (endNode, adjNode) => {
     return x + y;
 };
 
-const getLowestCostFNode = () => {
+const getLowestCostFNode = (openSet) => {
     let index = 0;
 
     for (let i = 0; i < openSet.length; i++) {
+        // If a new node with a lower f is found, replace index
         if (openSet[index].f > openSet[i].f) {
             index = i;
         }
     }
 
+    // Remove and return node with lowest f value from open set
     return openSet.splice(index, 1)[0];
 };
 
@@ -97,16 +105,13 @@ const isValidPath = (currNode, adjNode) => {
     }
 };
 
-const generatePath = (grid, endNode) => {
+const generatePath = (endNode) => {
     let current = endNode;
     current.isPathNode = true;
 
-    while (current.parent !== null) {
-        const { row, col } = current.parent;
-        const parent = grid[row][col];
-
+    while (current.parent) {
         // Set parent of current node as part of the optimal path
-        parent.isPathNode = true;
-        current = parent;
+        current.parent.isPathNode = true;
+        current = current.parent;
     }
 };

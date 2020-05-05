@@ -9,45 +9,38 @@ export const Grid = (props) => {
     let count = 1; // Used for delayed individual cell rendering
 
     useEffect(() => {
-        const oldGrid = [...grid];
-
         switch (props.status) {
             case "generate":
                 const maze = primsMaze(grid);
-
-                maze.forEach((cell) => {
-                    // Make a shallow copy of the specific cell and update properties
-                    const gridCell = { ...oldGrid[cell.row][cell.col] };
-                    gridCell.walls = cell.walls;
-
-                    // Put it back in the array
-                    oldGrid[cell.row][cell.col] = gridCell;
-
-                    // Set new grid with updated cell
-                    setGrid(oldGrid);
-                });
+                getNewMaze(maze, [...grid]);
                 break;
             case "solve":
                 const aStarMaze = aStar(grid);
-
-                aStarMaze.forEach((cell) => {
-                    // Make a shallow copy of the specific cell and update properties
-                    const gridCell = { ...oldGrid[cell.row][cell.col] };
-                    gridCell.visited = cell.visited;
-                    gridCell.isPathNode = cell.isPathNode;
-
-                    // Put it back in the array
-                    oldGrid[cell.row][cell.col] = gridCell;
-
-                    // Set new grid with updated cell
-                    setGrid(oldGrid);
-                });
+                getNewMaze(aStarMaze, [...grid]);
                 break;
             default:
                 setGrid(initGrid);
                 break;
         }
     }, [props.status]);
+
+    const getNewMaze = (maze, oldGrid) => {
+        maze.forEach((cell) => {
+            // Make a shallow copy of the specific cell and update properties
+            const gridCell = { ...oldGrid[cell.row][cell.col] };
+            gridCell.row = cell.row;
+            gridCell.col = cell.col;
+            gridCell.walls = cell.walls;
+            gridCell.visited = cell.visited;
+            gridCell.isPathNode = cell.isPathNode;
+
+            // Put it back in the array
+            oldGrid[cell.row][cell.col] = gridCell;
+
+            // Set new grid with updated cell
+            setGrid(oldGrid);
+        });
+    };
 
     return (
         <table className="grid">
