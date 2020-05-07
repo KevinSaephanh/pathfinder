@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import "./Cell.css";
+import "./Node.css";
 
-export const Cell = (props) => {
-    const [cellData, setCellData] = useState({
+export const Node = (props) => {
+    const [nodeData, setNodeData] = useState({
         row: null,
         col: null,
         visited: false,
         walls: [true, true, true, true],
         isPathNode: false,
     });
-    const { row, col, visited, walls, isPathNode } = cellData;
+    const { row, col, visited, walls, isPathNode } = nodeData;
 
     useEffect(() => {
-        // Set each cell in sequence to animate
+        // Set each node in sequence to animate
         // the generation of the maze
         const interval = setInterval(() => {
-            setCellData(props);
+            setNodeData(props);
         }, 5 * props.count);
 
         return () => {
@@ -26,8 +26,8 @@ export const Cell = (props) => {
     return (
         <td
             key={`(${row},${col})`}
-            id={`cell-${row}-${col}`}
-            className={`cell 
+            id={`node-${row}-${col}`}
+            className={`node 
                 top-${walls[0]} 
                 bottom-${walls[1]} 
                 right-${walls[2]} 

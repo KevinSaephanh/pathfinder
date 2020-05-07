@@ -14,7 +14,7 @@ export const Navbar = (props) => {
 
     return (
         <Nav className="navbar">
-            <NavDropdown id="dropdown" title={<span>{maze}</span>}>
+            <NavDropdown id="dropdown" title={maze}>
                 <NavDropdown.Item
                     className="dropdown-item"
                     name="Recursive Backtracker"
@@ -30,11 +30,7 @@ export const Navbar = (props) => {
                     Prim's
                 </NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown
-                id="dropdown"
-                alignRight
-                title={<span>{pathfinding}</span>}
-            >
+            <NavDropdown id="dropdown" alignRight title={pathfinding}>
                 <NavDropdown.Item
                     className="dropdown-item"
                     name="A* Search"
@@ -62,7 +58,7 @@ export const Navbar = (props) => {
             </button>
             <button
                 name="solve"
-                disabled={pathfinding === "pathfinding" && status !== "create"}
+                disabled={pathfinding === "pathfinding" || status !== "create"}
                 onClick={handleClickStatus}
             >
                 SOLVE

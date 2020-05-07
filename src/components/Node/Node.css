@@ -1,15 +1,15 @@
-.cell {
+.node {
     height: 20px;
     width: 17px;
     border: 1.6px solid white;
     background: #444444;
 }
 
-#cell-0-0 {
+#node-0-0 {
     background: red;
 }
 
-#cell-24-24 {
+#node-24-24 {
     background: blue;
 }
 
@@ -42,7 +42,7 @@
 }
 
 @media only screen and (max-width: 900px) {
-    .cell {
+    .node {
         height: 15px;
         width: 10px;
     }

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./Grid.css";
-import { Cell } from "../Cell/Cell";
+import { Node } from "../Node/Node";
 import { initGrid } from "../../utils/mazeUtils";
 import { primsAlgorithm } from "../../utils/mazeGeneration/prims";
 import { recursiveBacktracker } from "../../utils/mazeGeneration/recursiveBacktracker";
-import { aStar } from "../../utils/aStar";
+import { dijkstra } from "../../utils/pathfinding/dijkstra";
+import { aStar } from "../../utils/pathfinding/aStar";
 
 export const Grid = (props) => {
     const [grid, setGrid] = useState([[]]);
-    let count = 1; // Used for delayed individual cell rendering
+    let count = 1; // Used for delayed individual node rendering
 
     useEffect(() => {
         switch (props.status) {
@@ -17,7 +18,7 @@ export const Grid = (props) => {
                 getNewMaze(maze, [...grid]);
                 break;
             case "solve":
-                const aStarMaze = aStar(grid);
+                const aStarMaze = getPathfinding(props.pathfinding);
                 getNewMaze(aStarMaze, [...grid]);
                 break;
             default:
@@ -38,24 +39,24 @@ export const Grid = (props) => {
         if (algorithm === "A* Search") {
             return aStar(grid);
         } else if (algorithm === "Dijkstra's") {
-            return;
+            return dijkstra(grid);
         }
     };
 
     const getNewMaze = (maze, oldGrid) => {
-        maze.forEach((cell) => {
-            // Make a shallow copy of the specific cell and update properties
-            const gridCell = { ...oldGrid[cell.row][cell.col] };
-            gridCell.row = cell.row;
-            gridCell.col = cell.col;
-            gridCell.walls = cell.walls;
-            gridCell.visited = cell.visited;
-            gridCell.isPathNode = cell.isPathNode;
+        maze.forEach((node) => {
+            // Make a shallow copy of the specific node and update properties
+            const gridNode = { ...oldGrid[node.row][node.col] };
+            gridNode.row = node.row;
+            gridNode.col = node.col;
+            gridNode.walls = node.walls;
+            gridNode.visited = node.visited;
+            gridNode.isPathNode = node.isPathNode;
 
             // Put it back in the array
-            oldGrid[cell.row][cell.col] = gridCell;
+            oldGrid[node.row][node.col] = gridNode;
 
-            // Set new grid with updated cell
+            // Set new grid with updated node
             setGrid(oldGrid);
         });
     };
@@ -65,18 +66,18 @@ export const Grid = (props) => {
             <tbody>
                 {grid.map((row, rowIndex) => (
                     <tr className="grid-row" key={rowIndex}>
-                        {row.map((cell, key) => {
+                        {row.map((node, key) => {
                             const {
                                 row,
                                 col,
                                 visited,
                                 walls,
                                 isPathNode,
-                            } = cell;
+                            } = node;
                             count++;
 
                             return (
-                                <Cell
+                                <Node
                                     {...{
                                         key,
                                         row,
@@ -86,7 +87,7 @@ export const Grid = (props) => {
                                         count,
                                         isPathNode,
                                     }}
-                                ></Cell>
+                                ></Node>
                             );
                         })}
                     </tr>

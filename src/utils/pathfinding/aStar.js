@@ -1,3 +1,5 @@
+import * as MazeUtils from "../mazeUtils";
+
 export const aStar = (grid) => {
     const openSet = [];
     const closedSet = [];
@@ -19,12 +21,12 @@ export const aStar = (grid) => {
         const frontiers = currNode.getFrontiers(grid);
         frontiers.forEach((frontier) => {
             if (
-                isValidPath(currNode, frontier) &&
+                MazeUtils.isValidPath(currNode, frontier) &&
                 !closedSet.includes(frontier)
             ) {
                 if (!openSet.includes(frontier)) {
                     // Calculate g, h, and f for frontier
-                    frontier.g = currNode.g + calcCost(currNode, frontier);
+                    frontier.g = currNode.g + MazeUtils.calcCost(currNode, frontier);
                     frontier.h = calcHeuristic(endNode, frontier);
                     frontier.f = frontier.g + frontier.h;
 
@@ -37,24 +39,17 @@ export const aStar = (grid) => {
                     // Make parent of frontier equal to current node
                     frontier.parent = currNode;
 
-                    // Recalculate g and g for frontier
-                    frontier.g = currNode.g + calcCost(currNode, frontier);
+                    // Recalculate g and f for frontier
+                    frontier.g = currNode.g + MazeUtils.calcCost(currNode, frontier);
                     frontier.f = frontier.g + frontier.h;
                 }
             }
         });
     }
 
-    generatePath(endNode);
+    MazeUtils.generatePath(endNode);
 
     return closedSet;
-};
-
-const calcCost = (currNode, adjNode) => {
-    const x = Math.abs(currNode.row - adjNode.row);
-    const y = Math.abs(currNode.col - adjNode.col);
-
-    return x + y;
 };
 
 // The estimated movement cost to move from the
@@ -79,37 +74,4 @@ const getLowestCostFNode = (openSet) => {
 
     // Remove and return node with lowest f value from open set
     return openSet.splice(index, 1)[0];
-};
-
-// This method checks if there is a wall between the current node
-// and the adjacent node to determine if the path is traversable
-const isValidPath = (currNode, adjNode) => {
-    const row1 = currNode.row;
-    const col1 = currNode.col;
-    const row2 = adjNode.row;
-    const col2 = adjNode.col;
-
-    const x = col1 - col2;
-    const y = row1 - row2;
-
-    if (x === 0 && y === 1) {
-        return currNode.walls[0] === false && adjNode.walls[1] === false;
-    } else if (x === 0 && y === -1) {
-        return currNode.walls[1] === false && adjNode.walls[0] === false;
-    } else if (x === 1 && y === 0) {
-        return currNode.walls[3] === false && adjNode.walls[2] === false;
-    } else if (x === -1 && y === 0) {
-        return currNode.walls[2] === false && adjNode.walls[3] === false;
-    }
-};
-
-const generatePath = (endNode) => {
-    let current = endNode;
-    current.isPathNode = true;
-
-    while (current.parent) {
-        // Set parent of current node as part of the optimal path
-        current.parent.isPathNode = true;
-        current = current.parent;
-    }
 };

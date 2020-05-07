@@ -26,28 +26,15 @@ const wilsonsAlgorithm = (grid) => {
         let newCurrCell = currCell;
         randFrontiers.forEach((frontier) => {
             // Mark direction traveled for the current cell to that frontier
-            newCurrCell.direction = getDirection(newCurrCell, frontier);
+            newCurrCell.direction = MazeUtils.getDirection(
+                newCurrCell,
+                frontier
+            );
 
             if (visited.includes(frontier)) {
                 MazeUtils.breakWall(newCurrCell, frontier);
                 newCurrCell = frontier;
             }
         });
-    }
-};
-
-const getDirection = (currCell, frontier) => {
-    const x = currCell.row - frontier.row;
-    const y = currCell.col - frontier.col;
-
-    if (x === 0 && y === 1) {
-        return "UP";
-    } else if (x === 0 && y === -1) {
-        return "DOWN";
-    }
-    if (x === 1 && y === 0) {
-        return "LEFT";
-    } else if (x === -1 && y === 0) {
-        return "RIGHT";
     }
 };

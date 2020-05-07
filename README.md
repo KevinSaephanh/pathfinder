@@ -2,7 +2,13 @@
 
 This project incorporates randomized Prim's algorithm for maze generation as well as A\* search algorithm for solving the generated maze
 
-## Randomized Prim's Algorithm
+## Maze Generation Algorithms
+
+### Recursive Backtracker
+
+Begin with a 25x25 2D grid with each node (cell) lined with walls on all four sides. 
+
+### Randomized Prim's 
 
 Begin with a 25x25 2D grid with each node (cell) lined with walls on all four sides. Create a toVisit list and visited list for nodes. Start by selecting a random node and adding it to the toVisit list. Now follow these steps while there are still nodes in the toVisit list:
 _ Pop the node from the toVisit list, mark it as the current node, then add it to the visited list.  
@@ -10,7 +16,9 @@ _ Find all frontiers (neighbors) of the current node and randomize their order
 _ For each frontier in this frontiers list, check if it is in the toVisit and visited list  
 _ If in neither, break the wall dividing the current node and that frontier then push the frontier to the toVisit list. \* Else, continue to the next frontier.
 
-## A\* Search Algorithm
+## Pathfinding Algorithms
+
+### A\* Search
 
 Terminology:
 **Start node** - very first node in the maze (0, 0)
@@ -31,7 +39,11 @@ _ If true, calculate g, h, and f for the frontier
 _ If the frontier is already in the open set AND the frontier's g value is higher than the current node's g value, continue to the next node  
 \_ Else, push the frontier to the open set and make it's parent equal to the current node.
 
-## Optimal Path
+### Dijkstra
+
+Dijkstra's algorithm is pretty much the same as A* Search. The difference is that Dijkstra's does not use f nor h when determining which nodes to visit. Instead, it only uses g. Excluding f and h calculations, the steps are pretty much identical to A*.
+
+## Finding the Optimal Path
 
 Create a current node variable and set it equal to the end node. While current node has a parent:
 _ Find the parent node in the maze and mark it as a path node  
