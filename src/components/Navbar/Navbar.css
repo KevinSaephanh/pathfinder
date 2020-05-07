@@ -1,16 +1,15 @@
 .navbar {
     margin-bottom: 25px !important;
     padding: 0 25px 0 25px !important;
-    height: 10vh;
+    height: 12vh;
     background: #05386b;
 }
 
 .navbar button {
     background: transparent;
     height: 40px;
-    width: 120px;
+    width: 130px;
     border: 3px solid white;
-    padding: 0 !important;
     border-radius: 3px;
     font-weight: bold;
     font-size: 14px;
@@ -35,7 +34,7 @@
 }
 
 #dropdown {
-    width: 120px !important;
+    width: 130px !important;
     border: 3px solid white;
     border-radius: 3px;
     font-weight: bold;

@@ -1,20 +1,21 @@
-# A\* Pathfinder
+# Pathfinder
 
-This project incorporates randomized Prim's algorithm for maze generation as well as A\* search algorithm for solving the generated maze
+This project incorporates a number of algorithms for both maze generation and pathfinding. [Try it!](https://kevinsaephanh.github.io/Pathfinder/)
 
 ## Maze Generation Algorithms
 
 ### Recursive Backtracker
 
-Begin with a 25x25 2D grid with each node (cell) lined with walls on all four sides. 
+Begin with a 25x25 2D grid with each node (cell) lined with walls on all four sides.
 
-### Randomized Prim's 
+### Randomized Prim's
 
 Begin with a 25x25 2D grid with each node (cell) lined with walls on all four sides. Create a toVisit list and visited list for nodes. Start by selecting a random node and adding it to the toVisit list. Now follow these steps while there are still nodes in the toVisit list:
-_ Pop the node from the toVisit list, mark it as the current node, then add it to the visited list.  
-_ Find all frontiers (neighbors) of the current node and randomize their order  
-_ For each frontier in this frontiers list, check if it is in the toVisit and visited list  
-_ If in neither, break the wall dividing the current node and that frontier then push the frontier to the toVisit list. \* Else, continue to the next frontier.
+
+-   Pop the node from the toVisit list, mark it as the current node, then add it to the visited list.
+-   Find all frontiers (neighbors) of the current node and randomize their order
+-   For each frontier in this frontiers list, check if it is in the toVisit and visited list
+-   If in neither, break the wall dividing the current node and that frontier then push the frontier to the toVisit list. \* Else, continue to the next frontier.
 
 ## Pathfinding Algorithms
 
@@ -31,13 +32,14 @@ Frontier.g = currentNode. g + cost
 f = g + h
 
 Create an open set and a closed set. Push the start node to the open set and do the following steps while there are still nodes in the open set:
-_ Remove the node with the lowest f cost from the open set, mark it as the current node, then add it to the closed set.  
-_ If the current node is the end node, then congratulations you win!  
-_ Else, get the frontiers of the current node.  
-_ For each frontier, check if the path between the current node and frontier can be traversed (no wall) and if the frontier is not on the closed set  
-_ If true, calculate g, h, and f for the frontier  
-_ If the frontier is already in the open set AND the frontier's g value is higher than the current node's g value, continue to the next node  
-\_ Else, push the frontier to the open set and make it's parent equal to the current node.
+
+-   Remove the node with the lowest f cost from the open set, mark it as the current node, then add it to the closed set.
+-   If the current node is the end node, then congratulations you win!
+-   Else, get the frontiers of the current node.
+-   For each frontier, check if the path between the current node and frontier can be traversed (no wall) and if the frontier is not on the closed set
+-   If true, calculate g, h, and f for the frontier
+-   If the frontier is already in the open set AND the frontier's g value is higher than the current node's g value, continue to the next node
+-   Else, push the frontier to the open set and make it's parent equal to the current node.
 
 ### Dijkstra
 
@@ -46,5 +48,6 @@ Dijkstra's algorithm is pretty much the same as A* Search. The difference is tha
 ## Finding the Optimal Path
 
 Create a current node variable and set it equal to the end node. While current node has a parent:
-_ Find the parent node in the maze and mark it as a path node  
-_ Set the current node equal to it's own parent
+
+-   Find the parent node in the maze and mark it as a path node
+-   Set the current node equal to it's own parent
