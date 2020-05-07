@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./Grid.css";
 import { Cell } from "../Cell/Cell";
-import { primsMaze, initGrid } from "../../utils/maze";
+import { initGrid } from "../../utils/mazeUtils";
+import { primsAlgorithm } from "../../utils/mazeGeneration/prims";
+import { recursiveBacktracker } from "../../utils/mazeGeneration/recursiveBacktracker";
 import { aStar } from "../../utils/aStar";
 
 export const Grid = (props) => {
@@ -10,8 +12,8 @@ export const Grid = (props) => {
 
     useEffect(() => {
         switch (props.status) {
-            case "generate":
-                const maze = primsMaze(grid);
+            case "create":
+                const maze = getMaze(props.maze);
                 getNewMaze(maze, [...grid]);
                 break;
             case "solve":
@@ -23,6 +25,22 @@ export const Grid = (props) => {
                 break;
         }
     }, [props.status]);
+
+    const getMaze = (algorithm) => {
+        if (algorithm === "Recursive Backtracker") {
+            return recursiveBacktracker(grid);
+        } else if (algorithm === "Prim's") {
+            return primsAlgorithm(grid);
+        }
+    };
+
+    const getPathfinding = (algorithm) => {
+        if (algorithm === "A* Search") {
+            return aStar(grid);
+        } else if (algorithm === "Dijkstra's") {
+            return;
+        }
+    };
 
     const getNewMaze = (maze, oldGrid) => {
         maze.forEach((cell) => {

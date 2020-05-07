@@ -51,7 +51,7 @@ export const primsMaze = (grid) => {
 // This method takes two cells and determines which wall to break
 // depending on the results of subtracting the first cell's row/col
 // by the neighboring cell's row/col
-const breakWall = (currCell, frontier) => {
+export const breakWall = (currCell, frontier) => {
     const row1 = currCell.row;
     const col1 = currCell.col;
     const row2 = frontier.row;
@@ -83,10 +83,14 @@ const breakWall = (currCell, frontier) => {
 
 // Fisher-Yates shuffle algorithm
 // Used to randomize order of frontiers
-const shuffle = (arr) => {
+export const shuffle = (arr) => {
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
+};
+
+export const getRandomIndex = () => {
+    return Math.floor(Math.random() * 24);
 };

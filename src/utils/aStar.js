@@ -18,8 +18,6 @@ export const aStar = (grid) => {
 
         const frontiers = currNode.getFrontiers(grid);
         frontiers.forEach((frontier) => {
-            frontier = grid[frontier[0]][frontier[1]];
-
             if (
                 isValidPath(currNode, frontier) &&
                 !closedSet.includes(frontier)

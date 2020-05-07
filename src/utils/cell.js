@@ -20,19 +20,19 @@ export default class Cell {
         const frontiers = [];
 
         if (this.isValidFrontier(top, grid)) {
-            frontiers.push(top);
+            frontiers.push(grid[top[0]][top[1]]);
         }
 
         if (this.isValidFrontier(bottom, grid)) {
-            frontiers.push(bottom);
+            frontiers.push(grid[bottom[0]][bottom[1]]);
         }
 
         if (this.isValidFrontier(right, grid)) {
-            frontiers.push(right);
+            frontiers.push(grid[right[0]][right[1]]);
         }
 
         if (this.isValidFrontier(left, grid)) {
-            frontiers.push(left);
+            frontiers.push(grid[left[0]][left[1]]);
         }
 
         return frontiers;
