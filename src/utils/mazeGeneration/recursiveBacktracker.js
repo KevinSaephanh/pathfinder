@@ -1,4 +1,4 @@
-import * as MazeUtils from "../mazeUtils";
+import MazeUtils from "../mazeUtils";
 
 export const recursiveBacktracker = (grid) => {
     const stack = [];

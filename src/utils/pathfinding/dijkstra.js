@@ -1,4 +1,5 @@
-import * as MazeUtils from "../mazeUtils";
+import MazeUtils from "../mazeUtils";
+import NodeUtils from "../nodeUtils";
 
 export const dijkstra = (grid) => {
     const openSet = [];
@@ -13,10 +14,7 @@ export const dijkstra = (grid) => {
         closedSet.push(currNode);
 
         // Current node has reached the end of the maze
-        if (currNode === endNode) {
-            console.log("SOLVED!");
-            break;
-        }
+        if (currNode === endNode) break;
 
         const frontiers = currNode.getFrontiers(grid);
         frontiers.forEach((frontier) => {
@@ -25,7 +23,8 @@ export const dijkstra = (grid) => {
                 !closedSet.includes(frontier)
             ) {
                 if (!openSet.includes(frontier)) {
-                    frontier.g = currNode.g + MazeUtils.calcCost(currNode, frontier);
+                    frontier.g =
+                        currNode.g + NodeUtils.calcCost(currNode, frontier);
 
                     // Make parent of frontier equal to current node
                     frontier.parent = currNode;
@@ -37,13 +36,12 @@ export const dijkstra = (grid) => {
                     frontier.parent = currNode;
 
                     // Recalculate g for frontier
-                    frontier.g = currNode.g + MazeUtils.calcCost(currNode, frontier);
+                    frontier.g =
+                        currNode.g + NodeUtils.calcCost(currNode, frontier);
                 }
             }
         });
     }
-
-    MazeUtils.generatePath(endNode);
 
     return closedSet;
 };
@@ -53,9 +51,7 @@ const getLowestCostGNode = (openSet) => {
 
     for (let i = 0; i < openSet.length; i++) {
         // If a new node with a lower g is found, replace index
-        if (openSet[index].g > openSet[i].g) {
-            index = i;
-        }
+        if (openSet[index].g > openSet[i].g) index = i;
     }
 
     // Remove and return node with lowest g value from open set

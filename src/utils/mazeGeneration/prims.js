@@ -1,4 +1,4 @@
-import * as MazeUtils from "../mazeUtils";
+import MazeUtils from "../mazeUtils";
 
 // This method uses randomized prim's algorithm
 // to generate a completely random maze

@@ -24,11 +24,7 @@ const App = () => {
         e.preventDefault();
         setPathfinding(e.target.name);
     };
-
-    console.log(maze);
-    console.log(status);
-    console.log(pathfinding);
-
+    
     return (
         <Container fluid>
             <Navbar

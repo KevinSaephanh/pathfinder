@@ -1,4 +1,5 @@
-import * as MazeUtils from "../mazeUtils";
+import MazeUtils from "../mazeUtils";
+import NodeUtils from "../nodeUtils";
 
 export const aStar = (grid) => {
     const openSet = [];
@@ -13,10 +14,7 @@ export const aStar = (grid) => {
         closedSet.push(currNode);
 
         // Current node has reached the end of the maze
-        if (currNode === endNode) {
-            console.log("SOLVED!");
-            break;
-        }
+        if (currNode === endNode) break;
 
         const frontiers = currNode.getFrontiers(grid);
         frontiers.forEach((frontier) => {
@@ -26,7 +24,8 @@ export const aStar = (grid) => {
             ) {
                 if (!openSet.includes(frontier)) {
                     // Calculate g, h, and f for frontier
-                    frontier.g = currNode.g + MazeUtils.calcCost(currNode, frontier);
+                    frontier.g =
+                        currNode.g + NodeUtils.calcCost(currNode, frontier);
                     frontier.h = calcHeuristic(endNode, frontier);
                     frontier.f = frontier.g + frontier.h;
 
@@ -40,14 +39,13 @@ export const aStar = (grid) => {
                     frontier.parent = currNode;
 
                     // Recalculate g and f for frontier
-                    frontier.g = currNode.g + MazeUtils.calcCost(currNode, frontier);
+                    frontier.g =
+                        currNode.g + NodeUtils.calcCost(currNode, frontier);
                     frontier.f = frontier.g + frontier.h;
                 }
             }
         });
     }
-
-    MazeUtils.generatePath(endNode);
 
     return closedSet;
 };
@@ -67,9 +65,7 @@ const getLowestCostFNode = (openSet) => {
 
     for (let i = 0; i < openSet.length; i++) {
         // If a new node with a lower f is found, replace index
-        if (openSet[index].f > openSet[i].f) {
-            index = i;
-        }
+        if (openSet[index].f > openSet[i].f) index = i;
     }
 
     // Remove and return node with lowest f value from open set

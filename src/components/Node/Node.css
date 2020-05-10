@@ -6,11 +6,11 @@
 }
 
 #node-0-0 {
-    background: red;
+    background: red !important;
 }
 
 #node-24-24 {
-    background: blue;
+    background: blue !important;
 }
 
 .visited-true {
@@ -19,26 +19,6 @@
     border-radius: 50%;
     margin: auto auto;
     background: skyblue;
-}
-
-.path-true {
-    background: green !important;
-}
-
-.right-false {
-    border-right-color: #444444 !important;
-}
-
-.left-false {
-    border-left-color: #444444 !important;
-}
-
-.top-false {
-    border-top-color: #444444 !important;
-}
-
-.bottom-false {
-    border-bottom-color: #444444 !important;
 }
 
 @media only screen and (max-width: 900px) {
