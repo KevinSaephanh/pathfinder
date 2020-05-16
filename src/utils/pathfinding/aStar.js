@@ -7,6 +7,8 @@ export const aStar = (grid) => {
     const startNode = grid[0][0];
     const endNode = grid[24][24];
 
+    startNode.f = startNode.g = startNode.h = 0;
+
     openSet.push(startNode);
     while (openSet.length > 0) {
         const currNode = getLowestCostFNode(openSet);

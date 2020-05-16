@@ -1,7 +1,5 @@
 import MazeUtils from "../mazeUtils";
 
-// This method uses randomized prim's algorithm
-// to generate a completely random maze
 export const primsAlgorithm = (grid) => {
     const row = MazeUtils.getRandomIndex();
     const col = MazeUtils.getRandomIndex();

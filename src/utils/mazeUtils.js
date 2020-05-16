@@ -1,4 +1,4 @@
-import Node from "./node";
+import Node from "../models/node";
 
 export default class MazeUtils {
     static initGrid = () => {

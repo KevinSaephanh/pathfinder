@@ -45,6 +45,20 @@ export const Navbar = (props) => {
                 >
                     Dijkstra's
                 </NavDropdown.Item>
+                <NavDropdown.Item
+                    className="dropdown-item"
+                    name="BFS"
+                    onClick={handleClickPathfinding}
+                >
+                    Breadth First Search
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                    className="dropdown-item"
+                    name="DFS"
+                    onClick={handleClickPathfinding}
+                >
+                    Depth First Search
+                </NavDropdown.Item>
             </NavDropdown>
             <button
                 name="create"

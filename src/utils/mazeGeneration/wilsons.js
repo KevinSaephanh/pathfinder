@@ -10,9 +10,9 @@
 // If all cells have not been visited
 // Go to 2
 
-import * as MazeUtils from "../mazeUtils";
+import MazeUtils from "../mazeUtils";
 
-const wilsonsAlgorithm = (grid) => {
+export const wilsonsAlgorithm = (grid) => {
     const randCell =
         grid[MazeUtils.getRandomIndex()][MazeUtils.getRandomIndex()];
     const visited = [];

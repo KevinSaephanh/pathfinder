@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { Node } from "../Node/Node";
-import { primsAlgorithm } from "../../utils/mazeGeneration/prims";
-import { recursiveBacktracker } from "../../utils/mazeGeneration/recursiveBacktracker";
-import { dijkstra } from "../../utils/pathfinding/dijkstra";
-import { aStar } from "../../utils/pathfinding/aStar";
+import * as MazeGen from "../../utils/mazeGeneration/index";
+import * as Pathfinding from "../../utils/pathfinding/index";
 import MazeUtils from "../../utils/mazeUtils";
 import NodeUtils from "../../utils/nodeUtils";
 import "./Grid.css";
@@ -15,26 +13,32 @@ export const Grid = (props) => {
         switch (props.status) {
             case "create":
                 if (props.maze === "Recursive Backtracker") {
-                    const recursive = recursiveBacktracker(grid);
+                    const recursive = MazeGen.recursiveBacktracker(grid);
                     generateMaze(recursive, 0);
                 } else if (props.maze === "Prim's") {
-                    const prims = primsAlgorithm(grid);
+                    const prims = MazeGen.primsAlgorithm(grid);
                     generateMaze(prims, 0);
                 }
                 break;
             case "solve":
                 if (props.pathfinding === "A* Search") {
-                    const pathfinding = aStar(grid);
+                    const pathfinding = Pathfinding.aStar(grid);
                     generateMaze(pathfinding, 0);
                 } else if (props.pathfinding === "Dijkstra's") {
-                    const pathfinding = dijkstra(grid);
+                    const pathfinding = Pathfinding.dijkstra(grid);
+                    generateMaze(pathfinding, 0);
+                } else if (props.pathfinding === "BFS") {
+                    const pathfinding = Pathfinding.bfs(grid);
+                    generateMaze(pathfinding, 0);
+                } else if (props.pathfinding === "DFS") {
+                    const pathfinding = Pathfinding.dfs(grid);
                     generateMaze(pathfinding, 0);
                 }
 
                 setTimeout(() => {
                     const path = MazeUtils.generatePath(grid[24][24]);
                     generateMaze(path, 0);
-                }, 9000);
+                }, 10000);
                 break;
             default:
                 // Reset grid to initial state and reset all node styles

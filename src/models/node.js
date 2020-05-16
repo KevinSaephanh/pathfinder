@@ -6,9 +6,6 @@ export default class Node {
         this.walls = [true, true, true, true];
         this.parent = null;
         this.isPathNode = false;
-        this.g = 0;
-        this.h = 0;
-        this.f = 0;
     }
 
     // This method returns all neighboring nodes of the current node
