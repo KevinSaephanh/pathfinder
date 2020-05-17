@@ -18,7 +18,7 @@ export const Grid = (props) => {
                 } else if (props.maze === "Prim's") {
                     const prims = MazeGen.primsAlgorithm(grid);
                     generateMaze(prims, 0);
-                }
+                } 
                 break;
             case "solve":
                 if (props.pathfinding === "A* Search") {

@@ -26,19 +26,9 @@ export default class NodeUtils {
         nodeStyle.backgroundColor = "#444444";
     };
 
-    static getDirection = (currNode, frontier) => {
-        const x = currNode.row - frontier.row;
-        const y = currNode.col - frontier.col;
-
-        if (x === 0 && y === 1) return "UP";
-        if (x === 0 && y === -1) return "DOWN";
-        if (x === 1 && y === 0) return "LEFT";
-        if (x === -1 && y === 0) return "RIGHT";
-    };
-
-    static calcCost = (currNode, adjNode) => {
-        const x = Math.abs(currNode.row - adjNode.row);
-        const y = Math.abs(currNode.col - adjNode.col);
+    static calcCost = (currNode, frontier) => {
+        const x = Math.abs(currNode.row - frontier.row);
+        const y = Math.abs(currNode.col - frontier.col);
 
         return x + y;
     };
